@@ -36,10 +36,7 @@ buttonEl.addEventListener("click", function () {
 viewEl.addEventListener("click", function () {
   console.log("klik");
   let myNotes = JSON.parse(localStorage.getItem("notes"));
-  if (myNotes === []) {
-    localStorage.clear();
-  }
-  if (myNotes === null) {
+  if (myNotes === null || myNotess.length === 0) {
     alert("You don't have saved notes!");
   } else {
     renderSavedNotesName();
