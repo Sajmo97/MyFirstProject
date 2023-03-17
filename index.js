@@ -10,16 +10,18 @@ const editBtn = document.getElementById("edit-btn");
 const editEl = document.getElementById("edit-el");
 const editBodyEl = document.getElementById("edit-body-el");
 const editNameEl = document.getElementById("edit-name-el");
+//This is help object to store values of input and textarea
 let noteObject = {
   name: " ",
   body: " ",
 };
-
+//This function shows form on page
 newNote.addEventListener("click", function () {
   formEl.className = "visible";
   nameRenderEl.innerHTML = "";
   bodyRenderEl.innerHTML = "";
 });
+//This part of code checks for input errors
 let error;
 buttonEl.addEventListener("click", function () {
   if (inputEl.value === "" || textAreaEl.value === "") {
@@ -32,9 +34,7 @@ buttonEl.addEventListener("click", function () {
     return error;
   }
 });
-
 viewEl.addEventListener("click", function () {
-  console.log("klik");
   let myNotes = JSON.parse(localStorage.getItem("notes"));
   if (myNotes === null || myNotess.length === 0) {
     alert("You don't have saved notes!");
@@ -43,6 +43,7 @@ viewEl.addEventListener("click", function () {
     formEl.className = "invisible";
   }
 });
+//saveNote function saves information about notes in local storage
 function saveNote() {
   if (error) {
     let myNotes = JSON.parse(localStorage.getItem("notes")) || [];
@@ -55,7 +56,7 @@ function saveNote() {
   }
 }
 buttonEl.addEventListener("click", saveNote);
-
+//renderSavedNotesName function gets notes from local storage and renders names on page
 function renderSavedNotesName() {
   let listNames = " ";
   let myNotes = JSON.parse(localStorage.getItem("notes"));
@@ -69,14 +70,15 @@ function renderSavedNotesName() {
   }
   nameRenderEl.innerHTML = listNames;
 }
+//This part of code listens for click on note name and stores value in requstedNote for later use
 let requestedNote;
 document.onclick = function (evt) {
-  var evt = window.event || evt; // window.event for IE
-  if (!evt.target) evt.target = evt.srcElement; // extend target property for IE
-  requestedNote = evt.target.innerText; // target is clicked
+  let evt = window.event || evt;
+  if (!evt.target) evt.target = evt.srcElement;
+  requestedNote = evt.target.innerText;
   return requestedNote;
 };
-
+//Function renderNoteBody renders note body on page
 function renderNoteBody() {
   let listBody = "";
   let myNotes = JSON.parse(localStorage.getItem("notes"));
@@ -95,10 +97,12 @@ function renderNoteBody() {
   }
   bodyRenderEl.innerHTML = listBody;
 }
+//updateNotes updates local storage
 function updateNotes(myNotes) {
   localStorage.clear();
   localStorage.setItem("notes", JSON.stringify(myNotes));
 }
+//deleteNote function deletes specified note from myNotes object and updates local storage with new value
 function deleteNote() {
   let myNotes = JSON.parse(localStorage.getItem("notes"));
   let savedIndex;
@@ -112,6 +116,7 @@ function deleteNote() {
   renderNoteBody();
   renderSavedNotesName();
 }
+//editNoteForm shows form for edditing current note
 function editNoteForm() {
   if (bodyRenderEl.className === "visible") {
     bodyRenderEl.className = "d-none";
@@ -120,6 +125,7 @@ function editNoteForm() {
   editNameEl.value = noteObject.name;
   editBodyEl.value = noteObject.body;
 }
+//by clicking on edit button it triggers function which edits current active note and stores it in local storage
 editBtn.addEventListener("click", function () {
   bodyRenderEl.className = "visible";
   editEl.className = "d-none";
